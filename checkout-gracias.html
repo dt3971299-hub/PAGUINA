@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAVID MOTOS - Pedido Confirmado</title>
+    <link rel="stylesheet" href="checkout-gracias.css">
+    <link rel="icon" type="image/x-icon" href="fondosimg.jpg">
+</head>
+
+<body id="fondo">
+    <div class="container">
+        <div class="header-nav-wrapper">
+            <header>
+                <div class="logo">
+                    <img src="fondosimg.jpg" alt="Logo David Motos" class="circular-logo" id="logoEmpresa">
+                </div>
+                <div class="header-text-container">
+                    <h1>DAVID MOTOS</h1>
+                    <p>¡Pedido Exitoso!</p>
+                </div>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="index1.html">Volver al Catálogo Principal</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <section class="checkout-section">
+            <div class="checkout-container" style="text-align: center;">
+                <h2 style="color: #2ecc71; margin-bottom: 15px;">¡Compra Registrada con Éxito!</h2>
+                <p style="margin-bottom: 25px;">Hemos recibido tu orden correctamente. Aquí tienes el resumen de tu
+                    compra:</p>
+
+                <div id="resumen-final-detallado" class="resumen-carrito-box"
+                    style="text-align: left; margin-bottom: 25px;"></div>
+
+                <button type="button" class="btn-confirmar-pedido" onclick="terminarTodo()">Finalizar y Volver al
+                    Inicio</button>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <h3>DAVID MOTOS</h3>
+                <p>Tu compra segura de principio a fin.</p>
+                <p class="copyright">© 2026 David Motos. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cliente = JSON.parse(localStorage.getItem('clienteDataMotos')) || {};
+            const metodoPago = localStorage.getItem('metodoPagoMotos') || 'No especificado';
+            const carrito = JSON.parse(localStorage.getItem('carritoMotos')) || [];
+
+            const contenedor = document.getElementById('resumen-final-detallado');
+
+            let textoMetodoPago = metodoPago;
+            if (metodoPago === 'yape') textoMetodoPago = 'Yape / Plin / Billetera Digital';
+            if (metodoPago === 'tarjeta') textoMetodoPago = 'Tarjeta de Crédito / Débito';
+            if (metodoPago === 'contraentrega') textoMetodoPago = 'Pago Contraentrega';
+
+            let html = `
+                <h3 style="color: #fff; font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Datos del Cliente y Envío</h3>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 5px;"><strong>Nombre:</strong> ${cliente.nombre || 'N/A'}</p>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 5px;"><strong>Correo:</strong> ${cliente.email || 'N/A'}</p>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 5px;"><strong>Teléfono:</strong> ${cliente.telefono || 'N/A'}</p>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 5px;"><strong>Dirección:</strong> ${cliente.direccion || 'N/A'} (${cliente.ciudad || 'N/A'})</p>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 15px;"><strong>Método de Envío:</strong> ${cliente.envio === 'domicilio' ? 'Envío a Domicilio Premium' : 'Recojo en Tienda'}</p>
+                
+                <h3 style="color: #fff; font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Método de Pago Seleccionado</h3>
+                <p style="color: #ccc; font-size: 14px; margin-bottom: 15px;"><strong>${textoMetodoPago}</strong></p>
+
+                <h3 style="color: #fff; font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Productos</h3>
+                <ul class="lista-resumen-items">
+            `;
+
+            carrito.forEach(item => {
+                html += `<li><span>${item.nombre}</span> <strong>${item.precio}</strong></li>`;
+            });
+
+            html += `</ul>`;
+            contenedor.innerHTML = html;
+        });
+
+        function terminarTodo() {
+            localStorage.removeItem('carritoMotos');
+            localStorage.removeItem('clienteDataMotos');
+            localStorage.removeItem('metodoPagoMotos');
+            window.location.href = 'index1.html';
+        }
+    </script>
+</body>
+
+</html>

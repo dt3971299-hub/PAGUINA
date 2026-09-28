@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAVID MOTOS - Métodos de Pago</title>
+    <link rel="stylesheet" href="checkout-pago.css">
+    <link rel="icon" type="image/x-icon" href="fondosimg.jpg">
+</head>
+
+<body id="fondo">
+    <div class="container">
+        <div class="header-nav-wrapper">
+            <header>
+                <div class="logo">
+                    <img src="fondosimg.jpg" alt="Logo David Motos" class="circular-logo" id="logoEmpresa">
+                </div>
+                <div class="header-text-container">
+                    <h1>DAVID MOTOS</h1>
+                    <p>Selección de Método de Pago</p>
+                </div>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="index1.html">Inicio </a></li>
+                    <li><a href="checkout.html">← Volver a Datos de Envío</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <section class="checkout-section">
+            <div class="checkout-container">
+                <h2>Elige tu Método de Pago</h2>
+                <p>Selecciona cómo deseas realizar el pago para procesar tu orden.</p>
+
+                <form id="form-pago" onsubmit="finalizarCompraFinal(event)">
+                    <fieldset class="form-grupo">
+                        <legend>1. Opciones de Pago Disponibles</legend>
+                        <div class="opciones-envio">
+                            <label class="radio-card">
+                                <input type="radio" name="metodo-pago" value="yape" checked
+                                    onchange="cambiarMetodoPago()">
+                                <div class="radio-content">
+                                    <strong>Yape / Plin / Billetera Digital</strong>
+                                    <span>Escanea el QR o transfiere de forma rápida desde tu celular.</span>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="metodo-pago" value="tarjeta" onchange="cambiarMetodoPago()">
+                                <div class="radio-content">
+                                    <strong>Tarjeta de Crédito / Débito</strong>
+                                    <span>Visa, Mastercard, American Express de forma segura.</span>
+                                </div>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="metodo-pago" value="contraentrega"
+                                    onchange="cambiarMetodoPago()">
+                                <div class="radio-content">
+                                    <strong>Pago Contraentrega (Al recibir la moto)</strong>
+                                    <span>Paga al momento de que llegue tu vehículo.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div id="contenedor-dinamico-pago"></div>
+
+                    <button type="submit" class="btn-confirmar-pedido">Finalizar y Confirmar Pedido</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <h3>DAVID MOTOS</h3>
+                <p>Tu compra segura de principio a fin.</p>
+                <p class="copyright">© 2026 David Motos. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function cambiarMetodoPago() {
+            const metodoSeleccionado = document.querySelector('input[name="metodo-pago"]:checked').value;
+            const contenedor = document.getElementById('contenedor-dinamico-pago');
+
+            if (metodoSeleccionado === 'yape') {
+                contenedor.innerHTML = `
+                    <fieldset class="form-grupo">
+                        <legend>2. Datos de Transferencia / Yape / Plin</legend>
+                        <p style="color: #bbb; font-size: 13px; margin-bottom: 15px;">Realiza el pago al número <strong>999-999-999</strong> a nombre de <strong>David Motos S.A.C.</strong></p>
+                        <div class="campo">
+                            <label for="banco-origen">Selecciona tu Billetera o Banco *</label>
+                            <select id="banco-origen" name="banco-origen" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="Yape">Yape</option>
+                                <option value="Plin">Plin</option>
+                                <option value="BCP">Banco BCP</option>
+                                <option value="Interbank">Interbank</option>
+                                <option value="BBVA">BBVA</option>
+                            </select>
+                        </div>
+                        <div class="campo" style="margin-top: 15px;">
+                            <label for="nro-operacion">Número de Operación / Código de Voucher *</label>
+                            <input type="text" id="nro-operacion" name="nro-operacion" required placeholder="Ej. 4587213">
+                        </div>
+                    </fieldset>
+                `;
+            } else if (metodoSeleccionado === 'tarjeta') {
+                contenedor.innerHTML = `
+                    <fieldset class="form-grupo">
+                        <legend>2. Datos de tu Tarjeta</legend>
+                        <div class="campo">
+                            <label for="nro-tarjeta">Número de la Tarjeta *</label>
+                            <input type="text" id="nro-tarjeta" name="nro-tarjeta" required placeholder="4532 •••• •••• 1234" maxlength="19">
+                        </div>
+                        <div class="campo-fila" style="margin-top: 15px;">
+                            <div class="campo">
+                                <label for="expiracion">Fecha de Expiración (MM/AA) *</label>
+                                <input type="text" id="expiracion" name="expiracion" required placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="campo">
+                                <label for="cvv">CVV / Código de Seguridad *</label>
+                                <input type="password" id="cvv" name="cvv" required placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </fieldset>
+                `;
+            } else if (metodoSeleccionado === 'contraentrega') {
+                contenedor.innerHTML = `
+                    <fieldset class="form-grupo">
+                        <legend>2. Confirmación de Pago Contraentrega</legend>
+                        <p style="color: #bbb; font-size: 14px; line-height: 1.5;">No necesitas ingresar datos adicionales. Coordinaremos el cobro al momento de la entrega.</p>
+                    </fieldset>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cambiarMetodoPago();
+        });
+
+        function finalizarCompraFinal(event) {
+            event.preventDefault();
+            const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+            localStorage.setItem('metodoPagoMotos', metodoPago);
+            window.location.href = 'checkout-gracias.html';
+        }
+    </script>
+</body>
+
+</html>
